@@ -1,12 +1,19 @@
 import './App.css';
-import Header from "./components/Header";
+import PageLayout from "./components/PageLayout";
+import React from "react";
+import {Route, Routes} from "react-router-dom";
+import MainContainer from "./components/MainContainer";
+import About from "./components/About";
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <h1>Example de Spring security avec JWT</h1>
-      <p>Dans cet exemple, vous trouverez le nécessaire pour implanter la sécurité avec des tokens JWT</p>
+    <div>
+      <Routes>
+        <Route path="/" element={<PageLayout />}>
+          <Route index element={<MainContainer/>}/>
+          <Route path='about' element={<About/>}/>
+        </Route>
+      </Routes>
 
     </div>
   );
