@@ -3,10 +3,7 @@ package com.lacouf.rsbjwt.model;
 import com.lacouf.rsbjwt.model.auth.Credentials;
 import com.lacouf.rsbjwt.model.auth.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -17,6 +14,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public abstract class UserApp  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

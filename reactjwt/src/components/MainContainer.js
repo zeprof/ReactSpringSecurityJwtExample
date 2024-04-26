@@ -1,6 +1,38 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import fetcher from "../utilis/fetcher";
 
 function MainContainer() {
+  const [user, setUser] = useState({})
+  const [error, setError] = useState(null)
+  let token = sessionStorage.getItem('token')
+
+  useEffect(() => {
+      if (token) {
+
+        try {
+          fetcher('http://localhost:8080/user/me', {})
+            .then(async (res) => {
+                const data = await res.json();
+                let newUser = {...data, isLoggedIn: true}
+                setUser(newUser)
+              }
+            ).catch(async (err) => {
+              setError(err)
+          })
+
+        } catch
+          (err) {
+          setError(err)
+        }
+      }
+    }
+    ,
+    [token]
+  )
+  ;
+
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
     <div className="maincontainer">
       <h1>Example de Spring security avec JWT</h1>
@@ -8,4 +40,5 @@ function MainContainer() {
     </div>
   )
 }
+
 export default MainContainer;

@@ -6,6 +6,7 @@ import com.lacouf.rsbjwt.service.dto.LoginDTO;
 import com.lacouf.rsbjwt.service.dto.UserDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,14 @@ public class UserController {
 
 	@PostMapping("/login")
 	public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody LoginDTO loginDto){
-		return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON).body(
-			new JWTAuthResponse(userService.authenticateUser(loginDto)));
+		final String accessToken;
+		try {
+			accessToken = userService.authenticateUser(loginDto);
+			return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON).body(
+				new JWTAuthResponse(accessToken));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new JWTAuthResponse());
+		}
 	}
 
 	@GetMapping("/me")
