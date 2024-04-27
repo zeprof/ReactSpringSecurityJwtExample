@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import fetcher from "../../utils/fetcher";
 
 
-const LoginForm = ({user, setUser}) => {
+const LoginForm = ({user, setUser, setError}) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -14,8 +14,6 @@ const LoginForm = ({user, setUser}) => {
     email: '',
     password: ''
   });
-  const [error, setError] = useState(null);
-
 
   const validateUser = () => {
     let isValid = true;
@@ -66,7 +64,7 @@ const LoginForm = ({user, setUser}) => {
 
   const fetchFunc = async () => {
     try {
-      const response = await fetcher('http://localhost:8080' + '/user/login', {
+      const response = await fetcher('/user/login', {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -93,6 +91,7 @@ const LoginForm = ({user, setUser}) => {
       navigate("/");
     } catch(error) {
       setError(error)
+      navigate('/error')
     }
     
 
@@ -127,8 +126,6 @@ const LoginForm = ({user, setUser}) => {
   //     }
   //   });
   // }
-
-  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <>
