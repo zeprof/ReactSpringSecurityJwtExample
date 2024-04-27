@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
-import fetcher from "../utilis/fetcher";
+import fetcher from "../utils/fetcher";
 
 function MainContainer() {
   const [user, setUser] = useState({})
   const [error, setError] = useState(null)
-  let token = sessionStorage.getItem('token')
+  let token = localStorage.getItem('token')
 
   useEffect(() => {
       if (token) {

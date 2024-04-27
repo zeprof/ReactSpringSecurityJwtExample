@@ -22,11 +22,12 @@ public class UserController {
 
 	@PostMapping("/login")
 	public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody LoginDTO loginDto){
-		final String accessToken;
 		try {
-			accessToken = userService.authenticateUser(loginDto);
-			return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON).body(
-				new JWTAuthResponse(accessToken));
+			String accessToken = userService.authenticateUser(loginDto);
+			final JWTAuthResponse authResponse = new JWTAuthResponse(accessToken);
+			return ResponseEntity.accepted()
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(authResponse);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new JWTAuthResponse());
 		}

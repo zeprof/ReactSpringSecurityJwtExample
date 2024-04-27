@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import fetcher from "../../utilis/fetcher";
+import fetcher from "../../utils/fetcher";
 
 
 const LoginForm = ({user, setUser}) => {
