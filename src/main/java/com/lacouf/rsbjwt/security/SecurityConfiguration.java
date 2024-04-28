@@ -26,8 +26,8 @@ import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -43,17 +43,17 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(POST, "/user/login").permitAll()
+                        .requestMatchers(POST, "/emprunteur/register").permitAll()
+                        .requestMatchers(POST, "/prepose/register").permitAll()
                         .requestMatchers(toH2Console()).permitAll()
                         .requestMatchers(GET, "/user/me").hasAnyAuthority("EMPRUNTEUR", "PREPOSE", "GESTIONNAIRE")
                         .requestMatchers(GET, "/user/contract/").hasAnyAuthority("EMPRUNTEUR", "PREPOSE", "GESTIONNAIRE")
-                        .requestMatchers(POST, "/emprunteur/register").permitAll()
                         .requestMatchers("/emprunteur/**").hasAuthority("EMPRUNTEUR")
-                        .requestMatchers(POST, "/employer/register").permitAll()
                         .requestMatchers("/prepose/**").hasAuthority("PREPOSE")
                         .requestMatchers("/gestionnaire/**").hasAuthority("GESTIONNAIRE")
                         .anyRequest().denyAll()
                 )
-                .headers(headers -> headers.frameOptions().disable())
+                .headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable()) // for h2-console
                 .sessionManagement((secuManagement) -> {
                     secuManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
