@@ -1,11 +1,12 @@
 .header {
     background-color: #282c34;
     min-height: 60px;
+    max-height: 60px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    font-size: calc(10px + 2vmin);
+    font-size: calc(10px + 1vmin);
     color: white;
     padding: 20px;
 }
@@ -22,4 +23,10 @@
 .nav-links a {
     color: white;
     text-decoration: none;
+}
+
+.para-align {
+    margin: 0 5px;
+    position: absolute;
+    right: 20px;
 }

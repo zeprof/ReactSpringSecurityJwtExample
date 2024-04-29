@@ -1,6 +1,9 @@
 package com.lacouf.rsbjwt.service;
 
 import com.lacouf.rsbjwt.model.*;
+import com.lacouf.rsbjwt.repository.EmprunteurRepository;
+import com.lacouf.rsbjwt.repository.GestionnaireRepository;
+import com.lacouf.rsbjwt.repository.PreposeRepository;
 import com.lacouf.rsbjwt.repository.UserAppRepository;
 import com.lacouf.rsbjwt.service.dto.*;
 import com.lacouf.rsbjwt.security.JwtTokenProvider;

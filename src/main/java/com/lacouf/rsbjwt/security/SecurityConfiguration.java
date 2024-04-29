@@ -46,8 +46,8 @@ public class SecurityConfiguration {
                         .requestMatchers(POST, "/emprunteur/register").permitAll()
                         .requestMatchers(POST, "/prepose/register").permitAll()
                         .requestMatchers(toH2Console()).permitAll()
-                        .requestMatchers(GET, "/user/me").hasAnyAuthority("EMPRUNTEUR", "PREPOSE", "GESTIONNAIRE")
-                        .requestMatchers(GET, "/user/contract/").hasAnyAuthority("EMPRUNTEUR", "PREPOSE", "GESTIONNAIRE")
+
+                        .requestMatchers(GET, "/user/*").hasAnyAuthority("EMPRUNTEUR", "PREPOSE", "GESTIONNAIRE")
                         .requestMatchers("/emprunteur/**").hasAuthority("EMPRUNTEUR")
                         .requestMatchers("/prepose/**").hasAuthority("PREPOSE")
                         .requestMatchers("/gestionnaire/**").hasAuthority("GESTIONNAIRE")

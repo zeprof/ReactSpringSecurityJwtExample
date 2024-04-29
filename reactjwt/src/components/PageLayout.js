@@ -3,10 +3,10 @@ import Header from "./Header";
 import Footer from "./Footer";
 import './PageLayout.css'
 
-function PageLayout () {
+function PageLayout ({user}) {
   return (
     <div id="pagelayout" className="pageLayout">
-      <Header />
+      <Header user={user}/>
       <Outlet />
       <Footer />
     </div>

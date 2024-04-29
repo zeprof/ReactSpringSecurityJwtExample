@@ -7,6 +7,10 @@ import About from "./components/About";
 import LoginForm from "./components/auth/LoginForm";
 import fetcher from "./utils/fetcher";
 import ErrorPage from "./components/ErrorPage";
+import Logout from "./components/auth/Logout";
+import EmprunteurHome from "./components/page/EmprunteurHome";
+import PreposeHome from "./components/page/PreposeHome";
+import GestionnaireHome from "./components/page/GestionnaireHome";
 
 function App() {
   const [user, setUser] = useState({})
@@ -53,10 +57,14 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<PageLayout/>}>
+        <Route path="/" element={<PageLayout user={user}/>}>
           <Route index element={<MainContainer setError={setError}/>}/>
           <Route path='about' element={<About/>}/>
           <Route path='login' element={<LoginForm setError={setError}/>}/>
+          <Route path='logout' element={<Logout setUser={setUser}/>}/>
+          <Route path='emprunteur' element={<EmprunteurHome/>}/>
+          <Route path='prepose' element={<PreposeHome/>}/>
+          <Route path='gestionnaire' element={<GestionnaireHome/>}/>
           <Route path='error' element={<ErrorPage error={error}/>}/>
         </Route>
       </Routes>
