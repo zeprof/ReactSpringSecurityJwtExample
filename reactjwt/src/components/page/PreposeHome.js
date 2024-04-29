@@ -1,6 +1,6 @@
 const PreposeHome = () => {
   return(
-    <h1>Page acceuil prepose</h1>
+    <h1>Page accueil prepose</h1>
   );
 }
 export default PreposeHome;

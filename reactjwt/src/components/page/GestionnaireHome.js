@@ -1,6 +1,6 @@
 const GestionnaireHome = () => {
   return(
-    <h1>Page acceuil gestionnaire</h1>
+    <h1>Page accueil gestionnaire</h1>
   );
 }
 export default GestionnaireHome;
