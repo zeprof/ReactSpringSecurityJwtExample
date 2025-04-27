@@ -28,7 +28,8 @@ function App() {
                 if (!res.ok) {
                   switch (res.status) {
                     case 401:
-                      throw new Error("Not authorized")
+                      localStorage.clear();
+                      setUser(null);
                     case 403:
                       throw new Error("Forbidden")
                     case 404:

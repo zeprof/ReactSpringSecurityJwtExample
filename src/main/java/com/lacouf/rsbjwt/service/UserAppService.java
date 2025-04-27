@@ -29,7 +29,9 @@ public class UserAppService {
     public String authenticateUser(LoginDTO loginDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
-        return jwtTokenProvider.generateToken(authentication);
+        final String token = jwtTokenProvider.generateToken(authentication);
+        System.out.println("JWT Token " + token);
+        return token;
     }
 
     public UserDTO getMe(String token) {

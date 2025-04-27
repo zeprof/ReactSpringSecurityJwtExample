@@ -1,5 +1,6 @@
 package com.lacouf.rsbjwt.security;
 
+import com.lacouf.rsbjwt.model.auth.Role;
 import com.lacouf.rsbjwt.repository.UserAppRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -47,7 +48,7 @@ public class SecurityConfiguration {
                         .requestMatchers(POST, "/prepose/register").permitAll()
                         .requestMatchers(toH2Console()).permitAll()
 
-                        .requestMatchers(GET, "/user/*").hasAnyAuthority("EMPRUNTEUR", "PREPOSE", "GESTIONNAIRE")
+                        .requestMatchers(GET, "/user/**").hasAnyAuthority("EMPRUNTEUR", "PREPOSE", "GESTIONNAIRE")
                         .requestMatchers("/emprunteur/**").hasAuthority("EMPRUNTEUR")
                         .requestMatchers("/prepose/**").hasAuthority("PREPOSE")
                         .requestMatchers("/gestionnaire/**").hasAuthority("GESTIONNAIRE")

@@ -136,7 +136,7 @@ const LoginForm = ({user, setUser, setError}) => {
               navigate("/")
       ) : (
         <div className="container mt-5">
-          <h1 className="display-6 text-center mb-3">GlucOSE</h1>
+          <h1 className="display-6 text-center mb-3">Projet Etudiant</h1>
 
             <div className="row">
               <div className="col-9 mx-auto">
