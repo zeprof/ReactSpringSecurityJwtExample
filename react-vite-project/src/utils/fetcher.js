@@ -8,6 +8,14 @@ async function fetcher(input, options) {
   // merge the options with the headers
   const fetchOptions = { ...options, headers };
   // fetch
-  return fetch(`${BASE_URL}${input}`, fetchOptions);
+  try {
+    input = input.replace(/^\//, '');
+    const url = BASE_URL + input;
+    const response = await fetch(`${BASE_URL}${input}`, fetchOptions);
+    return response;
+  } catch(e) {
+    throw e;
+  }
+
 }
 export default fetcher;
