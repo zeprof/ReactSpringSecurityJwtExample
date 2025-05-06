@@ -12,6 +12,22 @@ function Header({user}) {
         return roleName.charAt(0).toUpperCase() + roleName.slice(1).toLowerCase();
     };
 
+    const isGestionnaire = () => {
+        console.log(user)
+        return user && user.role &&
+            (user.role.toString() === 'GESTIONNAIRE');
+    }
+    const isPrepose = () => {
+        console.log(user)
+        return user && user.role &&
+            (user.role.toString() === 'GESTIONNAIRE' || user.role.toString() === 'PREPOSE');
+    }
+    const isEmprunteur = () => {
+        console.log(user)
+        return user && user.role &&
+            (user.role.toString() === 'GESTIONNAIRE' || user.role.toString() === 'EMPRUNTEUR');
+    }
+
     return (
         <header className="header">
             <h1>My App</h1>
@@ -19,9 +35,9 @@ function Header({user}) {
                 <ul className="nav-links">
                     <li><Link to="/">Accueil</Link></li>
                     <li><Link to="/about">À propos</Link></li>
-                    <li><Link to="/emprunteur">Emprunteur</Link></li>
-                    <li><Link to="/prepose">Prepose</Link></li>
-                    <li><Link to="/gestionnaire">Gestionnaire</Link></li>
+                    {isEmprunteur() && <li><Link to="/emprunteur">Emprunteur</Link></li>}
+                    {isPrepose() && <li><Link to="/prepose">Prepose</Link></li>}
+                    {isGestionnaire() && <li><Link to="/gestionnaire">Gestionnaire</Link></li>}
                     <li>{user?.isLoggedIn ? <Link to="/logout">Logout</Link> : <Link to="/login">Login</Link>}</li>
                 </ul>
                 {user?.isLoggedIn && (
