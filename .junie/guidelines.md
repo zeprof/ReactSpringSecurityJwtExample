@@ -2,7 +2,7 @@
 
 ** Important ** Strictly follow the instructions below:
 
-- First, before anywork, create a new branch
+# - First, before anywork, create a new branch
 - Write down the timestamp of the session start
 - Before generating any code, generate a plan-{timestamp}.md file
 - Use the plan-{timestamp} as an input to generate de detailed enumerated task list
