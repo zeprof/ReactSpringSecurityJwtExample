@@ -2,6 +2,7 @@ package com.lacouf.rsbjwt.service;
 
 import com.lacouf.rsbjwt.model.Company;
 import com.lacouf.rsbjwt.model.Employer;
+import com.lacouf.rsbjwt.model.auth.Role;
 import com.lacouf.rsbjwt.repository.CompagnyRepo;
 import com.lacouf.rsbjwt.repository.EmployerRepo;
 import com.lacouf.rsbjwt.service.dto.CompanyDTO;
@@ -26,14 +27,8 @@ public class EmployerService {
     }
 
     @Transactional
-    public EmployerDTO addEmploye(String name, String surname, String email, String password, Long compagnieId){
-        Company company = compagnyRepo.getReferenceById(compagnieId);
-        Employer employe = new Employer();
-        employe.setName(name);
-        employe.setSurname(surname);
-        employe.setEmail(email);
-        employe.setPassword(password);
-        employe.setCompagnie(company);
+    public EmployerDTO addEmploye(String firstname, String lastname, String email, String password, Role role, Company company){
+        Employer employe = new Employer(firstname , lastname , email , password , Role.EMPLOYER , company);
         return EmployerDTO.of(employerRepo.save(employe));
     }
 

@@ -53,6 +53,10 @@ public abstract class User {
         return credentials.getPassword();
     }
 
+    public Role getRole(){
+        return credentials.getRole();
+    }
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return credentials.getAuthorities();
     }

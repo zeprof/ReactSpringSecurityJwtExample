@@ -23,6 +23,5 @@ public class ReactSpringSecurityJwtApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
     }
 }

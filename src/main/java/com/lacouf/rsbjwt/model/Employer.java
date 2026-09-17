@@ -1,11 +1,12 @@
 package com.lacouf.rsbjwt.model;
 
+import com.lacouf.rsbjwt.model.auth.Role;
 import jakarta.persistence.*;
 
 
 @Entity
 @DiscriminatorValue("Emp")
-public class Employer extends Utilisateur{
+public class Employer extends User{
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "compagnie_id")
@@ -19,9 +20,10 @@ public class Employer extends Utilisateur{
         this.company = company;
     }
 
-    public Employer(String name, String surname, String email, String password, Company company) {
-        super(name, surname, email, password);
+    public Employer(String firstName, String lastName, String email, String password, Role role, Company company) {
+        super(firstName, lastName, email, password, role);
         this.company = company;
     }
+
     public Employer(){}
 }

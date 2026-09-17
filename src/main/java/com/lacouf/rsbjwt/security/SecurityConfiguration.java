@@ -70,7 +70,8 @@ public class SecurityConfiguration {
                         .requestMatchers(GET, USER_EMAIL_CHECK_PATH).permitAll()
 //                        .requestMatchers(GET, "/api/user/student/**").permitAll() Pour tester. Ne pas garder en prod
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // Allow CORS preflight requests
-                        .requestMatchers(H2_CONSOLE_PATH).permitAll() // Allow H2 console access
+                        .requestMatchers(H2_CONSOLE_PATH).permitAll()// Allow H2 console access
+                                 .requestMatchers(POST, "/employe").permitAll()
 
                         // Use Role enum names for authorities
                         .requestMatchers(GET, USER_PATH).hasAnyAuthority(Role.EMPLOYER.name(), Role.PROFESSOR.name(), Role.INTERNSHIP_MANAGER.name())
