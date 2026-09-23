@@ -27,7 +27,7 @@ export const COMMON_INPUTS=[
 export const ROLE_CONFIG={
     student:{
         onSubmit: async (data) => {
-            return await axiosClient.post('/register/student', data);
+            return await axiosClient.post('api/register/student', data);
         },
         extraInputs:[
             {id: 6, label: 'register.inputs.discipline.label', type: "select", placeholder: 'register.inputs.discipline.placeholder', name: "discipline", optionKeys: Object.values(Discipline)},
@@ -35,7 +35,7 @@ export const ROLE_CONFIG={
     },
     teacher:{
         onSubmit: async (data) => {
-            return await axiosClient.post('/register/teacher', data);
+            return await axiosClient.post('api/register/teacher', data);
         },
         extraInputs:[
             {id: 6, label: 'register.inputs.school.label', type: "select", placeholder: 'register.inputs.school.placeholder', name: "school", optionKeys: Object.values(School)},
@@ -56,7 +56,8 @@ export const ROLE_CONFIG={
                 lastName: data.lastName,
                 email: data.email,
                 password: data.password,
-                compagnieId: companyId
+                compagnieId: companyId,
+                role: "ROLE_EMPLOYER"
             };
 
             return await axiosClient.post('/employe', employerData);
