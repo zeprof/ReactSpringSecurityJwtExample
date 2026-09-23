@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import RegisterPage from "./RegisterPage.jsx";
 import {useTranslation} from "react-i18next";
-// import TeacherForm from './TeacherForm';
-// import EmployerForm from './EmployerForm';
 
 const ROLES = {
     STUDENT: 'student',
@@ -14,6 +12,12 @@ export default function RoleSelectionForm() {
     const { t } = useTranslation();
 
     const [selectedRole, setSelectedRole] = useState(null);
+    const [activeRole, setActiveRole] = useState(ROLES.STUDENT);
+
+    const handleSelectRole = (roleId) => {
+        setActiveRole(roleId);
+        setSelectedRole(roleId);
+    };
 
     const roleCards = [
         {
@@ -56,7 +60,7 @@ export default function RoleSelectionForm() {
                                 <button
                                     key={card.id}
                                     type="button"
-                                    onClick={() => setSelectedRole(card.id)}
+                                    onClick={() => handleSelectRole(card.id)}
                                     className="group flex flex-col items-center justify-center p-6 aspect-square rounded-2xl border-2 transition-all duration-200 cursor-pointer text-center border-gray-200 bg-white text-gray-600 hover:border-kingfisher-daisy-800 hover:bg-kingfisher-daisy-50 hover:text-kingfisher-daisy-800 hover:shadow-md hover:scale-105"
                                 >
                                     <div className="flex items-center justify-center p-4 rounded-full mb-4 transition-colors duration-200 bg-gray-100 text-kingfisher-daisy-800 group-hover:bg-kingfisher-daisy-800 group-hover:text-white">
@@ -75,21 +79,17 @@ export default function RoleSelectionForm() {
                     </>
                 )}
 
-                {selectedRole && (
-                    <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm w-full max-w-xl mx-auto">
-                        <button
-                            type="button"
-                            onClick={() => setSelectedRole(null)}
-                            className="mb-6 text-sm text-kingfisher-daisy-800 hover:underline flex items-center gap-1 font-medium"
-                        >
-                            ← {t('roleSelection.backButton')}
-                        </button>
+                <div className={`bg-white p-6 rounded-2xl border border-gray-200 shadow-sm w-full max-w-xl mx-auto ${!selectedRole ? 'hidden' : ''}`}>
+                    <button
+                        type="button"
+                        onClick={() => setSelectedRole(null)}
+                        className="mb-6 text-sm text-kingfisher-daisy-800 hover:underline flex items-center gap-1 font-medium"
+                    >
+                        ← {t('roleSelection.backButton')}
+                    </button>
 
-                        {selectedRole === ROLES.STUDENT && <RegisterPage role={selectedRole} />}
-                        {selectedRole === ROLES.TEACHER && <RegisterPage role={selectedRole}/>}
-                        {selectedRole === ROLES.EMPLOYER && <RegisterPage role={selectedRole}/>}
-                    </div>
-                )}
+                    <RegisterPage role={activeRole} />
+                </div>
 
             </div>
         </div>
