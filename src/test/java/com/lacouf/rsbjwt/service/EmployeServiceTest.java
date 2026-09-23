@@ -5,6 +5,7 @@ import com.lacouf.rsbjwt.model.Employer;
 import com.lacouf.rsbjwt.model.auth.Role;
 import com.lacouf.rsbjwt.repository.CompagnyRepo;
 import com.lacouf.rsbjwt.repository.EmployerRepo;
+import com.lacouf.rsbjwt.service.EmployerService;
 import com.lacouf.rsbjwt.service.dto.CompanyDTO;
 import com.lacouf.rsbjwt.service.dto.EmployerDTO;
 import org.junit.jupiter.api.Test;
