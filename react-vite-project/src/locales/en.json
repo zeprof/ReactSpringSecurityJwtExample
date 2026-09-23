@@ -26,11 +26,23 @@
         "label": "Discipline",
         "placeholder": "Your discipline"
       },
+      "company":{
+        "label": "Company",
+        "placeholder": "Your company"
+      },
       "password": {
         "label": "Password"
       },
       "confirmPassword": {
         "label": "Confirm password"
+      },
+      "companyName": {
+        "label": "Company Name",
+        "placeholder": "Your company name"
+      },
+      "city": {
+        "label": "City",
+        "placeholder": "Your city"
       }
     },
     "errors": {

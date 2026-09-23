@@ -25,11 +25,23 @@
       "discipline": {
         "label": "Discipline"
       },
+      "company":{
+        "label": "Compagnie",
+        "placeholder": "Votre compagnie"
+      },
       "password": {
         "label": "Mot de passe"
       },
       "confirmPassword": {
         "label": "Confirmer mot de passe"
+      },
+      "companyName": {
+        "label": "Nom de la compagnie",
+        "placeholder": "Votre nom de compagnie"
+      },
+      "city": {
+        "label": "Ville",
+        "placeholder": "Votre ville"
       }
     },
     "errors": {
