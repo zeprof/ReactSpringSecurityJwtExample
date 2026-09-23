@@ -35,6 +35,14 @@
       },
       "confirmPassword": {
         "label": "Confirm password"
+      },
+      "companyName": {
+        "label": "Company Name",
+        "placeholder": "Your company name"
+      },
+      "city": {
+        "label": "City",
+        "placeholder": "Your city"
       }
     },
     "errors": {
