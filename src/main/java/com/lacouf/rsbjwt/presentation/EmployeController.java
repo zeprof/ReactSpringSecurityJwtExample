@@ -33,7 +33,7 @@ public class EmployeController {
                 request.email(),
                 request.password(),
                 request.role(),
-                request.company()
+                request.compagnieId()
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(employe);
     }
@@ -45,5 +45,5 @@ public class EmployeController {
 
     public record CompagnieRequest(String companyName, String city) {}
 
-    public record EmployeRequest(String firstname, String lastname, String email, String password, Role role, Company company) {}
+    public record EmployeRequest(String firstname, String lastname, String email, String password, Role role, Long compagnieId) {}
 }

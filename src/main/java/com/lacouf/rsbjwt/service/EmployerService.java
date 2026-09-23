@@ -27,8 +27,8 @@ public class EmployerService {
     }
 
     @Transactional
-    public EmployerDTO addEmploye(String firstname, String lastname, String email, String password, Role role, Company company){
-        Employer employe = new Employer(firstname , lastname , email , password , Role.EMPLOYER , company);
+    public EmployerDTO addEmploye(String firstname, String lastname, String email, String password, Role role, Long compagnieId){
+        Employer employe = new Employer(firstname , lastname , email , password , Role.EMPLOYER , compagnieId);
         return EmployerDTO.of(employerRepo.save(employe));
     }
 

@@ -8,21 +8,20 @@ import jakarta.persistence.*;
 @DiscriminatorValue("Emp")
 public class Employer extends User{
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "compagnie_id")
-    private Company company;
+    @Column(name = "compagnie_id")
+    private Long compagnieId;
 
-    public Company getCompagnie() {
-        return company;
+    public Employer(String name, String surname, String email, String password, Role role, Long compagnieId) {
+        super(name, surname, email, password, role);
+        this.compagnieId = compagnieId;
     }
 
-    public void setCompagnie(Company company) {
-        this.company = company;
+    public void setCompagnieId(Long compagnieId) {
+        this.compagnieId = compagnieId;
     }
 
-    public Employer(String firstName, String lastName, String email, String password, Role role, Company company) {
-        super(firstName, lastName, email, password, role);
-        this.company = company;
+    public Long getCompagnieId() {
+        return compagnieId;
     }
 
     public Employer(){}
