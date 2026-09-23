@@ -46,7 +46,8 @@ public class SecurityConfiguration {
 
     private static final String H2_CONSOLE_PATH = "/h2-console/**";
     private static final String USER_LOGIN_PATH = "/user/login";
-    private static final String EMPRUNTEUR_REGISTER_PATH = "/emprunteur/register";
+    private static final String EMPRUNTEUR_REGISTER_PATH = "/employe";
+    private static final String COMPANY_REGISTER_PATH = "/employe/compagnie";
     private static final String PREPOSE_REGISTER_PATH = "/prepose/register";
     private static final String USER_PATH = "/user/**";
     private static final String EMPRUNTEUR_PATH = "/emprunteur/**";
@@ -63,22 +64,23 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(POST, USER_LOGIN_PATH).permitAll()
-                        .requestMatchers(POST, EMPRUNTEUR_REGISTER_PATH).permitAll()
-                        .requestMatchers(POST, PREPOSE_REGISTER_PATH).permitAll()
-                        .requestMatchers(POST, STUDENT_CREATE_PATH).permitAll()
-                        .requestMatchers(GET, USER_EMAIL_CHECK_PATH).permitAll()
+                                .requestMatchers(POST, USER_LOGIN_PATH).permitAll()
+                                .requestMatchers(POST, EMPRUNTEUR_REGISTER_PATH).permitAll()
+                                .requestMatchers(POST, COMPANY_REGISTER_PATH).permitAll()
+                                .requestMatchers(POST, PREPOSE_REGISTER_PATH).permitAll()
+                                .requestMatchers(POST, STUDENT_CREATE_PATH).permitAll()
+                                .requestMatchers(GET, USER_EMAIL_CHECK_PATH).permitAll()
 //                        .requestMatchers(GET, "/api/user/student/**").permitAll() Pour tester. Ne pas garder en prod
-                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // Allow CORS preflight requests
-                        .requestMatchers(H2_CONSOLE_PATH).permitAll()// Allow H2 console access
-                                 .requestMatchers(POST, "/employe").permitAll()
+                                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // Allow CORS preflight requests
+                                .requestMatchers(H2_CONSOLE_PATH).permitAll()// Allow H2 console access
+                                .requestMatchers(POST, "/employe").permitAll()
 
-                        // Use Role enum names for authorities
-                        .requestMatchers(GET, USER_PATH).hasAnyAuthority(Role.EMPLOYER.name(), Role.PROFESSOR.name(), Role.INTERNSHIP_MANAGER.name())
-                        .requestMatchers(EMPRUNTEUR_PATH).hasAuthority(Role.EMPLOYER.name())
-                        .requestMatchers(PREPOSE_PATH).hasAuthority(Role.PROFESSOR.name())
-                        .requestMatchers(GESTIONNAIRE_PATH).hasAuthority(Role.INTERNSHIP_MANAGER.name())
-                        .anyRequest().authenticated() // Changed from denyAll() to authenticated() - more common, adjust if denyAll is strictly needed
+                                // Use Role enum names for authorities
+                                .requestMatchers(GET, USER_PATH).hasAnyAuthority(Role.EMPLOYER.name(), Role.PROFESSOR.name(), Role.INTERNSHIP_MANAGER.name())
+                                .requestMatchers(EMPRUNTEUR_PATH).hasAuthority(Role.EMPLOYER.name())
+                                .requestMatchers(PREPOSE_PATH).hasAuthority(Role.PROFESSOR.name())
+                                .requestMatchers(GESTIONNAIRE_PATH).hasAuthority(Role.INTERNSHIP_MANAGER.name())
+                                .anyRequest().authenticated() // Changed from denyAll() to authenticated() - more common, adjust if denyAll is strictly needed
                 )
                 .headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable()) // for h2-console
                 .sessionManagement((secuManagement) -> {
