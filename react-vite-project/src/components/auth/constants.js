@@ -1,3 +1,5 @@
+import axiosClient from "../../api/axiosClient.js";
+
 const Discipline = {
     ComputerScience: "ComputerScience",
     Nursing: "Nursing",
@@ -24,20 +26,41 @@ export const COMMON_INPUTS=[
 
 export const ROLE_CONFIG={
     student:{
-        endpoint: '/register/student',
+        onSubmit: async (data) => {
+            return await axiosClient.post('/register/student', data);
+        },
         extraInputs:[
             {id: 6, label: 'register.inputs.discipline.label', type: "select", placeholder: 'register.inputs.discipline.placeholder', name: "discipline", optionKeys: Object.values(Discipline)},
         ]
     },
     teacher:{
-        endpoint: '/register/teacher',
+        onSubmit: async (data) => {
+            return await axiosClient.post('/register/teacher', data);
+        },
         extraInputs:[
             {id: 6, label: 'register.inputs.school.label', type: "select", placeholder: 'register.inputs.school.placeholder', name: "school", optionKeys: Object.values(School)},
             {id: 7, label: 'register.inputs.discipline.label', type: "select", placeholder: 'register.inputs.discipline.placeholder', name: "discipline", optionKeys: Object.values(Discipline)},
         ]
     },
     employer:{
-        endpoint: '/register/employer',
+        onSubmit: async (data) => {
+            const companyData = {
+                companyName: data.companyName,
+                city: data.city
+            };
+            const companyResponse = await axiosClient.post('/employe/compagnie', companyData);
+            const companyId = companyResponse.data.id;
+
+            const employerData = {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+                password: data.password,
+                compagnieId: companyId
+            };
+
+            return await axiosClient.post('/employe', employerData);
+        },
         extraInputs:[
             {id: 6, label: 'register.inputs.companyName.label', type: "text", placeholder: 'register.inputs.companyName.placeholder', name: "companyName"},
             {id: 7, label: 'register.inputs.city.label', type: "text", placeholder: 'register.inputs.city.placeholder', name: "city"},

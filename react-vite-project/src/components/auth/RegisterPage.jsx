@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import FormInputs from "../FormInputs.jsx";
-import axiosClient from "../../api/axiosClient.js";
 import {COMMON_INPUTS, ROLE_CONFIG} from "./constants.js";
 
 
@@ -103,8 +102,7 @@ const RegisterPage = ({role}) => {
             setDisableButton(true);
             const data = {...values}
             delete data.passwordConfirmation;
-            console.log(data);
-            const response = await axiosClient.post(currentConfig.endpoint, data);
+            const response = await currentConfig.onSubmit(data);
             setValues(getInitialValues());
             setSimulationResponse(JSON.stringify(response.data));
         }catch(e){
