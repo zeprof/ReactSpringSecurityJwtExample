@@ -28,21 +28,30 @@ public class UserAppService {
 
     public String authenticateUser(LoginDTO loginDto) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
-        final String token = jwtTokenProvider.generateToken(authentication);
-        System.out.println("JWT Token " + token);
-        return token;
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
+        );
+        return jwtTokenProvider.generateToken(authentication);
     }
 
     public UserDTO getMe(String token) {
-        token = token.startsWith("Bearer") ? token.substring(7) : token;
-        String email = jwtTokenProvider.getEmailFromJWT(token);
+        String jwt = extractToken(token);
+        String email = jwtTokenProvider.getEmailFromJWT(jwt);
         UserApp user = userAppRepository.findUserAppByEmail(email).orElseThrow(UserNotFoundException::new);
-        return switch(user.getRole()){
+        return switch (user.getRole()) {
             case EMPRUNTEUR -> getEmprunteurDto(user.getId());
             case PREPOSE -> getPreposeDto(user.getId());
             case GESTIONNAIRE -> getGestionnaireDto(user.getId());
         };
+    }
+
+    private String extractToken(String authorizationHeader) {
+        if (authorizationHeader == null) {
+            throw new UserNotFoundException();
+        }
+        if (authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(7);
+        }
+        return authorizationHeader;
     }
 
     private GestionnaireDto getGestionnaireDto(Long id) {

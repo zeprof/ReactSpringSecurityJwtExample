@@ -73,7 +73,7 @@ class UserControllerWebMvcTest {
         mockMvc.perform(post("/user/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(login)))
-                .andExpect(status().isAccepted())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.tokenType").value("BEARER"))
                 .andExpect(jsonPath("$.accessToken").value("token123"));

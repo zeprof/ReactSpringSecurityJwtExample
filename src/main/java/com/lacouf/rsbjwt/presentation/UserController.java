@@ -24,11 +24,11 @@ public class UserController {
 	private final UserAppService userService;
 
 	@PostMapping("/login")
-	public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody @Valid LoginDTO loginDto){
+	public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody @Valid LoginDTO loginDto) {
 		try {
 			String accessToken = userService.authenticateUser(loginDto);
 			JWTAuthResponse authResponse = new JWTAuthResponse(accessToken);
-			return ResponseEntity.accepted()
+			return ResponseEntity.ok()
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(authResponse);
 		} catch (Exception e) {
@@ -37,9 +37,11 @@ public class UserController {
 	}
 
 	@GetMapping("/me")
-	public ResponseEntity<UserDTO> getMe(HttpServletRequest request){
-		return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON).body(
-			userService.getMe(request.getHeader("Authorization")));
+	public ResponseEntity<UserDTO> getMe(HttpServletRequest request) {
+		String authorization = request.getHeader("Authorization");
+		return ResponseEntity.ok()
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(userService.getMe(authorization));
 	}
 
 	@GetMapping("/gestionnaire/demo")
