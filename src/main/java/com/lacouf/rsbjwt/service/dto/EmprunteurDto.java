@@ -1,6 +1,6 @@
 package com.lacouf.rsbjwt.service.dto;
 
-import com.lacouf.rsbjwt.model.Emprunteur;
+import com.lacouf.rsbjwt.model.UserApp;
 import com.lacouf.rsbjwt.model.auth.Role;
 import lombok.Builder;
 import lombok.Data;
@@ -19,21 +19,14 @@ public class EmprunteurDto extends UserDTO {
 
     public EmprunteurDto() {}
 
-    public static EmprunteurDto create(Emprunteur emprunteur) {
+    public static EmprunteurDto create(UserApp user) {
         return EmprunteurDto.builder()
-                .id(emprunteur.getId())
-                .firstName(emprunteur.getFirstName())
-                .lastname(emprunteur.getLastName())
-                .email(emprunteur.getEmail())
-                .role(emprunteur.getRole())
-                .since(emprunteur.getSince())
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastname(user.getLastName())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .since(user.getSince())
                 .build();
-
-
-
-    }
-
-    public static EmprunteurDto empty() {
-        return new EmprunteurDto();
     }
 }

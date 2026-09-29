@@ -1,12 +1,12 @@
 package com.lacouf.rsbjwt.service.dto;
 
-import com.lacouf.rsbjwt.model.Gestionnaire;
+import com.lacouf.rsbjwt.model.UserApp;
 import com.lacouf.rsbjwt.model.auth.Role;
 import lombok.Builder;
 
 public class GestionnaireDto extends UserDTO {
     private String matricule;
-    private String phoneNumber;;
+    private String phoneNumber;
 
     @Builder
     public GestionnaireDto(Long id, String firstName, String lastname,
@@ -18,19 +18,15 @@ public class GestionnaireDto extends UserDTO {
 
     public GestionnaireDto() {}
 
-    public static GestionnaireDto create(Gestionnaire gestionnaire) {
+    public static GestionnaireDto create(UserApp user) {
         return GestionnaireDto.builder()
-                .id(gestionnaire.getId())
-                .firstName(gestionnaire.getFirstName())
-                .lastname(gestionnaire.getLastName())
-                .email(gestionnaire.getEmail())
-                .role(gestionnaire.getRole())
-                .matricule(gestionnaire.getMatricule())
-                .phoneNumber(gestionnaire.getPhoneNumber())
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastname(user.getLastName())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .matricule(user.getMatricule())
+                .phoneNumber(user.getPhoneNumber())
                 .build();
-    }
-
-    public static GestionnaireDto empty() {
-        return new GestionnaireDto();
     }
 }

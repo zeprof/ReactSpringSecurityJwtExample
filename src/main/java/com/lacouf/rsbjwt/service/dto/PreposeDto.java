@@ -1,6 +1,6 @@
 package com.lacouf.rsbjwt.service.dto;
 
-import com.lacouf.rsbjwt.model.Prepose;
+import com.lacouf.rsbjwt.model.UserApp;
 import com.lacouf.rsbjwt.model.auth.Role;
 import lombok.Builder;
 
@@ -13,20 +13,14 @@ public class PreposeDto extends UserDTO {
         this.passeKey = passeKey;
     }
 
-    public PreposeDto() {}
-
-    public static PreposeDto create(Prepose prepose) {
+    public static PreposeDto create(UserApp user) {
         return PreposeDto.builder()
-                .id(prepose.getId())
-                .firstName(prepose.getFirstName())
-                .lastname(prepose.getLastName())
-                .email(prepose.getEmail())
-                .role(prepose.getRole())
-                .passeKey(prepose.getPasseKey())
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastname(user.getLastName())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .passeKey(user.getPasseKey())
                 .build();
-    }
-
-    public static PreposeDto empty() {
-        return new PreposeDto();
     }
 }

@@ -1,11 +1,8 @@
 package com.lacouf.rsbjwt.bootstrap;
 
-import com.lacouf.rsbjwt.model.Emprunteur;
-import com.lacouf.rsbjwt.model.Gestionnaire;
-import com.lacouf.rsbjwt.model.Prepose;
-import com.lacouf.rsbjwt.repository.EmprunteurRepository;
-import com.lacouf.rsbjwt.repository.GestionnaireRepository;
-import com.lacouf.rsbjwt.repository.PreposeRepository;
+import com.lacouf.rsbjwt.model.UserApp;
+import com.lacouf.rsbjwt.model.auth.Role;
+import com.lacouf.rsbjwt.repository.UserAppRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
@@ -18,57 +15,51 @@ import java.time.LocalDate;
 @Profile("!test")
 public class DataInitializer implements ApplicationRunner {
 
-    private final GestionnaireRepository gestionnaireRepository;
-    private final EmprunteurRepository emprunteurRepository;
-    private final PreposeRepository preposeRepository;
+    private final UserAppRepository userAppRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public DataInitializer(
-            GestionnaireRepository gestionnaireRepository,
-            EmprunteurRepository emprunteurRepository,
-            PreposeRepository preposeRepository,
-            PasswordEncoder passwordEncoder
-    ) {
-        this.gestionnaireRepository = gestionnaireRepository;
-        this.emprunteurRepository = emprunteurRepository;
-        this.preposeRepository = preposeRepository;
+    public DataInitializer(UserAppRepository userAppRepository, PasswordEncoder passwordEncoder) {
+        this.userAppRepository = userAppRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void run(ApplicationArguments args) {
-        if (gestionnaireRepository.count() == 0) {
-            gestionnaireRepository.save(
-                    Gestionnaire.builder()
+        if (userAppRepository.findAll().stream().noneMatch(user -> "l@l.com".equals(user.getEmail()))) {
+            userAppRepository.save(
+                    UserApp.builder()
                             .firstName("Gerard")
                             .lastName("Biblio")
                             .email("l@l.com")
                             .password(passwordEncoder.encode("bib"))
+                            .role(Role.GESTIONNAIRE)
                             .matricule("0000001")
                             .phoneNumber("123-456-7890")
                             .build()
             );
         }
 
-        if (emprunteurRepository.count() == 0) {
-            emprunteurRepository.save(
-                    Emprunteur.builder()
+        if (userAppRepository.findAll().stream().noneMatch(user -> "ll@l.com".equals(user.getEmail()))) {
+            userAppRepository.save(
+                    UserApp.builder()
                             .firstName("Isidor")
                             .lastName("Teurteur")
                             .email("ll@l.com")
                             .password(passwordEncoder.encode("bib"))
+                            .role(Role.EMPRUNTEUR)
                             .since(LocalDate.of(2020, 10, 20))
                             .build()
             );
         }
 
-        if (preposeRepository.count() == 0) {
-            preposeRepository.save(
-                    Prepose.builder()
+        if (userAppRepository.findAll().stream().noneMatch(user -> "lll@l.com".equals(user.getEmail()))) {
+            userAppRepository.save(
+                    UserApp.builder()
                             .firstName("Chandeuse")
                             .lastName("Lixor")
                             .email("lll@l.com")
                             .password(passwordEncoder.encode("bib"))
+                            .role(Role.PREPOSE)
                             .passeKey("12345")
                             .build()
             );

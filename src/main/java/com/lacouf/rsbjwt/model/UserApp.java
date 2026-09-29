@@ -6,40 +6,64 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "user_app")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public abstract class UserApp  {
+public class UserApp {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstName;
 
+    private String firstName;
     private String lastName;
 
     @Embedded
     private Credentials credentials;
 
-    public String getEmail(){
+    @Column(unique = true)
+    private String matricule;
+
+    private String phoneNumber;
+    private String passeKey;
+    private LocalDate since;
+
+    @Builder
+    public UserApp(Long id, String firstName, String lastName, String email, String password, Role role,
+                   String matricule, String phoneNumber, String passeKey, LocalDate since) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.credentials = Credentials.builder()
+                .email(email)
+                .password(password)
+                .role(role)
+                .build();
+        this.matricule = matricule;
+        this.phoneNumber = phoneNumber;
+        this.passeKey = passeKey;
+        this.since = since;
+    }
+
+    public String getEmail() {
         return credentials.getEmail();
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return credentials.getPassword();
     }
 
-    public Role getRole(){
+    public Role getRole() {
         return credentials.getRole();
     }
 
-
-    public Collection<? extends GrantedAuthority> getAuthorities(){
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return credentials.getAuthorities();
     }
 }
