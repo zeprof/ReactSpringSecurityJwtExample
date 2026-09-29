@@ -14,10 +14,10 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider{
-	@Value("${application.security.jwt.expiration}")
+	@Value("${application.security.jwt.expiration:86400000}")
 	private int expirationInMs;
-	@Value("${application.security.jwt.secret-key}")
-	private String jwtSecret = "2B7E151628AED2A6ABF7158809CF4F3C2B7E151628AED2A6ABF7158809CF4F3C";
+	@Value("${application.security.jwt.secret-key:2B7E151628AED2A6ABF7158809CF4F3C2B7E151628AED2A6ABF7158809CF4F3C}")
+	private String jwtSecret;
 
 	private Key getSigningKey() {
 		// jwtSecret is a hex string, convert to bytes
