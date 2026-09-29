@@ -1,10 +1,12 @@
 package com.lacouf.rsbjwt.presentation;
 
+import com.lacouf.rsbjwt.security.exception.AuthenticationException;
 import com.lacouf.rsbjwt.service.UserAppService;
 import com.lacouf.rsbjwt.service.dto.JWTAuthResponse;
 import com.lacouf.rsbjwt.service.dto.LoginDTO;
 import com.lacouf.rsbjwt.service.dto.UserDTO;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,15 +24,15 @@ public class UserController {
 	private final UserAppService userService;
 
 	@PostMapping("/login")
-	public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody LoginDTO loginDto){
+	public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody @Valid LoginDTO loginDto){
 		try {
 			String accessToken = userService.authenticateUser(loginDto);
-			final JWTAuthResponse authResponse = new JWTAuthResponse(accessToken);
+			JWTAuthResponse authResponse = new JWTAuthResponse(accessToken);
 			return ResponseEntity.accepted()
 					.contentType(MediaType.APPLICATION_JSON)
 					.body(authResponse);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new JWTAuthResponse());
+			throw new AuthenticationException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
 		}
 	}
 

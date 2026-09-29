@@ -92,7 +92,8 @@ class UserControllerWebMvcTest {
                         .content(objectMapper.writeValueAsString(login)))
                 .andExpect(status().isUnauthorized())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.tokenType").value("BEARER"))
-                .andExpect(jsonPath("$.accessToken").value(org.hamcrest.Matchers.nullValue()));
+                .andExpect(jsonPath("$.status").value(401))
+                .andExpect(jsonPath("$.message").value("Invalid username or password"));
     }
+
 }
