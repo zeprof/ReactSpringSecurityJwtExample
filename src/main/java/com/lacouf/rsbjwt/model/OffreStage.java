@@ -29,7 +29,7 @@ public class OffreStage {
     @Embedded
     private Approbation approbation = new Approbation();
 
-    @OneToMany(mappedBy = "offreStage", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "offreStage", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Candidature> candidatures = new ArrayList<>();
 
     public OffreStage() {}
@@ -87,6 +87,11 @@ public class OffreStage {
         }
     }
 
+    public void reinitialiserApprobation() {
+        this.approbation.setStatus(StatusAcceptation.EN_ATTENTE);
+        this.approbation.setMessageRefus(null);
+    }
+
     public Long getId() {
         return id;
     }
@@ -125,6 +130,10 @@ public class OffreStage {
 
     public void addCandidature(Candidature candidature) {
         candidatures.add(candidature);
+    }
+
+    public Employeur getEmployeur() {
+        return employeur;
     }
 
     public void setEmployeur(Employeur employeur) {
@@ -166,4 +175,17 @@ public class OffreStage {
     public void setExigences(String exigences) {
         this.exigences = exigences;
     }
+
+    public void setTitre (String titre) {
+        this.titre = titre;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setNomEntreprise(String nomEntreprise) {
+        this.nomEntreprise = nomEntreprise;
+    }
+
 }

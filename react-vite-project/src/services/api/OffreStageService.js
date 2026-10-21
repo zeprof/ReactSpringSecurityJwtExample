@@ -82,6 +82,55 @@ export async function getCvCandidat(candidatureId, authHeader) {
 
   return response.blob();
 }
+
+export async function accepterCandidature(candidatureId, authHeader) {
+  const response = await fetch(`${BASE_URL}/employeur/candidatures/${candidatureId}/accepter`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeader,
+    },
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "defaultError");
+  }
+
+  return response.json();
+}
+
+export async function refuserCandidature(candidatureId, message, authHeader) {
+  const response = await fetch(`${BASE_URL}/employeur/candidatures/${candidatureId}/refuser`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeader,
+    },
+    body: JSON.stringify({ message }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "defaultError");
+  }
+
+  return response.json();
+}
+
+export async function getHistoriqueDecisions(authHeader) {
+  const response = await fetch(`${BASE_URL}/employeur/historique`, {
+    headers: authHeader,
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "defaultError");
+  }
+
+  return response.json();
+}
+
 export const fetchOffresEnAttente = async (authHeader) => {
   const response = await fetch(`${BASE_URL}/gestionnaire/offre/pending`, {
     method: "GET",
@@ -133,5 +182,33 @@ export async function postuler(authHeader, offreId) {
     throw new Error(await response.text());
   }
 
+  return response.json();
+}
+
+export async function deleteOffreStage(offreId, authHeader) {
+  const response = await fetch(`${BASE_URL}/employeur/offres/${offreId}`, {
+    method: "DELETE",
+    headers: authHeader,
+  });
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "Erreur lors de la suppression de l'offre");
+  }
+  return true;
+}
+
+export async function updateOffreStage(offreData, authHeader) {
+  const response = await fetch(`${BASE_URL}/employeur/modifierOffre`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeader,
+    },
+    body: JSON.stringify(offreData),
+  });
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "Erreur lors de la modification de l'offre");
+  }
   return response.json();
 }

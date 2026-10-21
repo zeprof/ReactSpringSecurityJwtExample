@@ -1,7 +1,9 @@
 package com.lacouf.rsbjwt.presentation;
 
+import com.lacouf.rsbjwt.presentation.RequestDto.ModifierOffreRequest;
 import com.lacouf.rsbjwt.service.EmployeurService;
 import com.lacouf.rsbjwt.service.UserAppService;
+import com.lacouf.rsbjwt.service.dto.ConvocationDto;
 import com.lacouf.rsbjwt.service.dto.EmployeurDto;
 import com.lacouf.rsbjwt.service.dto.OffreStageDto;
 import org.springframework.security.core.Authentication;
@@ -9,24 +11,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import com.lacouf.rsbjwt.presentation.RequestDto.CreationConvocationRequest;
+import com.lacouf.rsbjwt.service.ConvocationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 import java.util.List;
 
 @RestController
 @RequestMapping("/employeur")
-public class    EmployeurController {
+public class EmployeurController {
     private final UserAppService userService;
     private final EmployeurService employeurService;
+    private final ConvocationService convocationService;
 
-    public EmployeurController(UserAppService userService, EmployeurService employeurService) {
+    public EmployeurController(UserAppService userService, EmployeurService employeurService, ConvocationService convocationService) {
         this.userService = userService;
         this.employeurService = employeurService;
+        this.convocationService = convocationService;
     }
 
     @PostMapping("/inscription")
@@ -109,6 +111,87 @@ public class    EmployeurController {
                     .contentType(MediaType.APPLICATION_PDF)
                     .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"cv.pdf\"")
                     .body(cv);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/candidatures/{candidatureId}/accepter")
+    public ResponseEntity<Object> accepterCandidature(@PathVariable Long candidatureId, Authentication authentication) {
+        try {
+            return ResponseEntity.ok(employeurService.accepterCandidature(candidatureId, authentication.getName()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/candidatures/{candidatureId}/refuser")
+    public ResponseEntity<Object> refuserCandidature(@PathVariable Long candidatureId,
+                                                     @RequestBody(required = false) Map<String, String> request,
+                                                     Authentication authentication) {
+        try {
+            String message = request != null ? request.get("message") : null;
+            return ResponseEntity.ok(employeurService.refuserCandidature(candidatureId, message, authentication.getName()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/historique")
+    public ResponseEntity<Object> getHistorique(Authentication authentication) {
+        return ResponseEntity.ok(employeurService.getHistorique(authentication.getName()));
+    }
+
+    @PostMapping("/candidatures/{candidatureId}/convoquer")
+    public ResponseEntity<Object> convoquerCandidat(
+            @PathVariable Long candidatureId,
+            @RequestBody CreationConvocationRequest request,
+            Authentication authentication) {
+        try {
+            ConvocationDto convocationDto = convocationService.creerConvocation(
+                    authentication.getName(),
+                    candidatureId,
+                    request.rendezVousPossibles(),
+                    request.messageEmployeur()
+            );
+            return ResponseEntity.status(HttpStatus.CREATED).body(convocationDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/convocations")
+    public ResponseEntity<List<ConvocationDto>> getConvocationsEmployeur(Authentication authentication) {
+        return ResponseEntity.ok(convocationService.getConvocationsEmployeur(authentication.getName()));
+    }
+
+    @DeleteMapping("/offres/{offreId}")
+    public ResponseEntity<Object> deleteOffre(@PathVariable Long offreId, Authentication authentication) {
+        try {
+            employeurService.deleteOffre(offreId, authentication.getName());
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/modifierOffre")
+    public ResponseEntity<Object> updateOffre(@RequestBody ModifierOffreRequest request,
+                                              Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            OffreStageDto offreModifiee = employeurService.updateOffreStage(
+                    request.id(),
+                    request.titre(),
+                    request.nomEntreprise(),
+                    request.description(),
+                    request.discipline(),
+                    request.duree(),
+                    request.salaire(),
+                    request.exigences(),
+                    email
+            );
+            return ResponseEntity.ok(offreModifiee);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

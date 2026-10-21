@@ -1,5 +1,13 @@
 {
   "sitename": "Stagify",
+  "common": {
+    "cancel": "Cancel",
+    "submitting": "Processing...",
+    "close": "Close",
+    "confirm": "Confirm",
+    "not_available": "N/A",
+    "at": "at"
+  },
   "pagename": {
     "home": "Home",
     "about": "About us",
@@ -10,6 +18,10 @@
     "signup_professeur": "Register as teacher",
     "etudiant": "My profile",
     "offres_stages": "Internship offers",
+    "convocations": "Interview Invitations",
+    "approbation_offres": "Offer Approvals",
+    "approbation_cvs": "Resume Approvals",
+    "gestionnaire_convocations": "Convocations",
     "voir_offres": "View offers",
     "logout": "Logout"
   },
@@ -39,11 +51,14 @@
   "role": {
     "gestionnaire": "Coordinator",
     "etudiant": "Student",
+    "etudiant_nocv": "Student (No Resume)",
     "employeur": "Employer",
-    "professeur": "Teacher"
+    "professeur": "Teacher",
+    "admin": "Administrator"
   },
   "login_page": {
     "title": "Sign In",
+    "quickLogin": "Quick login",
     "subtitle": "Access your Stagify workspace.",
     "email": "Email address",
     "password": "Password",
@@ -172,18 +187,26 @@
     "salaire": "Compensation / Salary",
     "exigences": "Special Requirements (skills, tech stack)",
     "description": "Offer Description",
+    "weeks": "{{count}} weeks",
     "placeholders": {
       "titre": "Ex: Junior Web Developer",
       "nomEntreprise": "Ex: TechCorp",
       "discipline": "-- Select a discipline --",
       "duree": "-- Select a duration --",
-      "salaire": "Ex: $22.50/h or To be discussed",
+      "salaire": "22.50",
       "exigences": "Ex: Knowledge of React, Spring Boot, Git...",
       "description": "Describe the tasks and responsibilities..."
     },
     "errors": {
       "titre": "Title is required.",
       "nomEntreprise": "Company name is required.",
+      "discipline": "Please select a discipline.",
+      "duree": "Please select a duration.",
+      "salaire": {
+        "required": "Salary is required.",
+        "format": "Invalid salary format."
+      },
+      "exigences": "Requirements are required.",
       "description": "Description is required.",
       "descriptionLength": "Description must be at least 20 characters."
     },
@@ -231,36 +254,46 @@
     }
   },
   "cv_upload": {
-    "title": "Upload your CV",
-    "successMessage": "Your CV has been uploaded successfully!",
+    "title": "Upload your resume",
+    "choose_file": "Choose a PDF file",
+    "no_file_chosen": "No file chosen",
+    "successMessage": "Your resume has been uploaded successfully!",
     "loading": "Uploading...",
-    "submit": "Submit my CV",
+    "submit": "Upload my resume",
     "errors": {
       "notPdf": "Please select a PDF file.",
       "default": "An error occurred during the upload."
     }
   },
-  "etudiant_profile": {
-    "title": "Student Profile",
-    "subtitle": "Manage your academic documents and internship file status.",
-    "cv_uploaded": "Your CV has been uploaded successfully",
+  "modal_cv": {
     "loading": "Loading...",
+    "no_cv_title": "No resume uploaded",
+    "no_cv_desc": "It is preferable to upload your resume.",
+    "upload": "Upload my resume",
+    "update": "Update my resume",
     "pending_badge": "Pending review",
-    "pending_desc": "Your resume was submitted and is currently being evaluated by an internship coordinator. You will gain access to offers upon approval.",
+    "cv_uploaded": "Your resume has been uploaded successfully",
+    "pending_desc": "Your resume was submitted and is currently being evaluated by an internship coordinator.",
     "approved_badge": "Resume Approved",
     "approved_title": "Your resume has been validated!",
     "approved_desc": "Congratulations, you can now explore all approved internship offers and apply.",
-    "btn_view_offers": "View offers",
-    "update_help": "Need to update your resume?",
-    "btn_hide_upload": "Hide form",
-    "btn_show_upload": "Upload a new resume",
     "refused_badge": "Resume Rejected",
     "refused_title": "Your resume requires revisions",
     "refused_motif": "Reason: {{motif}}",
     "refused_no_motif": "No specific reason provided.",
     "refused_desc": "Please make the necessary changes to your document and submit your new version below.",
     "upload_corrected_title": "Upload your revised resume",
-    "registered_desc": "Your document is securely stored in our system."
+    "registered_desc": "Your document is securely stored in our system.",
+    "interviews_title": "My Internship Interviews",
+    "interviews_subtitle": "Confirmed interviews and pending invitations",
+    "btn_manage_convocations": "Manage my invitations",
+    "confirmed_badge": "Confirmed ✓",
+    "no_interviews": "No confirmed interviews yet. Go to the",
+    "no_interviews_link": "Interviews",
+    "no_interviews_end": "tab to respond to your invitations.",
+    "default_interview_title": "Internship interview",
+    "location_unspecified": "Location not specified",
+    "error_check": "An error occurred while checking the resume."
   },
   "employeur_home": {
     "title": "My internship offers",
@@ -272,8 +305,19 @@
     "status": {
       "EN_ATTENTE": "Pending",
       "ACCEPTE": "Accepted",
-      "REFUSE": "Refused"
-    }
+      "ACCEPTEE": "Accepted",
+      "REFUSE": "Refused",
+      "REFUSEE": "Refused"
+    },
+    "view_candidates": "View candidates",
+    "edit_error": "Error while updating the offer.",
+    "edit_offer": "Edit",
+    "delete_offer": "Delete",
+    "delete_error": "Error while deleting the offer.",
+    "modal_edit_title": "Edit Offer",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel"
   },
   "candidatures_offre": {
     "back": "Back to my offers",
@@ -281,26 +325,131 @@
     "subtitle": "Review students who applied to this offer",
     "loading": "Loading applications...",
     "no_candidates": "No applications received for this offer yet.",
-    "view_cv": "View CV",
-    "no_cv": "No CV available",
-    "statuts": {
-      "EN_ATTENTE": "Pending",
-      "ACCEPTEE": "Accepted",
-      "REFUSEE": "Rejected",
-      "EN_ATTENTE_REPONSE": "Awaiting response"
-    },
-    "no_offers": "No internship offer has been created yet.",
-    "motif_refus": "Reason for refusal:",
+    "view_cv": "View Resume",
+    "no_cv": "No resume available",
     "status": {
       "EN_ATTENTE": "Pending",
       "ACCEPTE": "Accepted",
-      "REFUSE": "Refused"
-    }
+      "ACCEPTEE": "Accepted",
+      "REFUSE": "Rejected",
+      "REFUSEE": "Rejected",
+      "EN_ATTENTE_REPONSE": "Awaiting response"
+    },
+    "accept": "Accept application",
+    "refuse": "Reject",
+    "refuse_message_label": "Explanatory message (optional)",
+    "refuse_message_placeholder": "Briefly explain the reasons for the rejection...",
+    "confirm_refuse": "Confirm rejection",
+    "cancel": "Cancel",
+    "response_message": "Rejection message"
+  },
+  "candidature_etudiant": {
+    "status": {
+      "EN_ATTENTE": "Awaiting employer's decision",
+      "ACCEPTE": "Invited to an interview",
+      "ACCEPTEE": "Invited to an interview",
+      "REFUSE": "Application rejected. Click \"View details\" for more information.",
+      "REFUSEE": "Application rejected. Click \"View details\" for more information.",
+      "EN_ATTENTE_REPONSE": "Awaiting response"
+    },
+    "refuse_reason": "Employer's message",
+    "modal_refused_title": "Application rejected",
+    "modal_refused_no_reason": "Your application was not selected by the employer for this internship offer."
+  },
+  "historique": {
+    "back": "Back to my offers",
+    "title": "Decision history",
+    "subtitle": "All your responses to applications, most recent first",
+    "loading": "Loading history...",
+    "empty": "You have not made any decision yet.",
+    "date": "Decision date",
+    "message": "Message",
+    "button": "Decision history"
   },
   "sidepanel": {
     "title": "Manager Workspace",
     "cvs": "Resume Approvals",
-    "offres": "Offer Approvals"
+    "offres": "Offer Approvals",
+    "convocations": "Interview Invitations"
+  },
+  "convocation": {
+    "title": "My Interview Invitations",
+    "subtitle": "Manage interview invitations sent by your prospective employers.",
+    "card_tag": "Interview invitation",
+    "default_position": "Internship interview",
+    "partner_company": "Partner company",
+    "datetime_label": "Interview Date & Time",
+    "virtual_interview": "Virtual interview",
+    "location_label": "Interview location",
+    "location_unspecified": "Location not specified",
+    "location_to_confirm": "Location to be confirmed",
+    "employer_instructions": "Employer instructions:",
+    "counter_proposal_label": "Your proposed reschedule:",
+    "justification_label": "Justification:",
+    "refusal_reason_label": "Refusal reason provided:",
+    "btn_accept": "Accept interview",
+    "btn_refuse": "Decline",
+    "btn_refresh": "Refresh",
+    "btn_propose_date": "Suggest another date",
+    "processing": "Processing...",
+    "loading": "Loading your invitations...",
+    "empty_title": "No interview invitations",
+    "empty_desc_all": "You have not received any interview invitations for your applications yet.",
+    "empty_desc_filter": "No invitations match the selected filter.",
+    "filter_all": "All",
+    "filter_pending": "Pending",
+    "filter_confirmed": "Confirmed",
+    "filter_conflicts": "Schedule conflicts",
+    "filter_refused": "Declined",
+    "success_accepted": "Congratulations! The interview has been confirmed and added to your profile.",
+    "success_refused": "The invitation was declined. The employer has been notified.",
+    "success_conflict": "Your reschedule proposal has been sent to the employer!",
+    "status": {
+      "en_attente": "Awaiting your reply",
+      "acceptee": "Accepted",
+      "refusee": "Declined",
+      "expiree": "Expired",
+      "annulee": "Cancelled",
+      "conflit": "Schedule Conflict",
+      "en_attente_reponse": "Awaiting response"
+    },
+    "deadline_notice": "Reply before",
+    "confirmed_interview": "Confirmed interview",
+    "choose_slot": "Choose your preferred time slot from the employer's proposals:",
+    "proposed_slot": "Time slot proposed by the employer:",
+    "expired_notice": "The deadline to respond to this invitation has expired.",
+    "modal_refus": {
+      "title": "Decline interview invitation",
+      "warning": "Are you sure you want to decline this interview invitation? The employer will be notified immediately.",
+      "motif_label": "Reason for refusal (optional)",
+      "motif_placeholder": "Ex: Already accepted another offer, unavailable...",
+      "btn_confirm": "Confirm refusal"
+    },
+    "modal_conflit": {
+      "title": "Report schedule conflict",
+      "description": "Suggest another date and time to the employer if you are not available at the scheduled time.",
+      "initial_date": "Initially scheduled date:",
+      "new_date_label": "Proposed new date and time *",
+      "justification_label": "Justification / Note for employer",
+      "justification_placeholder": "Ex: I have a university exam or class at that time...",
+      "btn_submit": "Send proposal",
+      "error_date_required": "Please select a new date and time.",
+      "error_date_past": "The proposed date must be in the future."
+    }
+  },
+  "gestionnaire_convocations": {
+    "title": "Interview Invitations Tracking",
+    "subtitle": "Overview of all students invited to interviews by employers.",
+    "total": "Total: {{count}} invitation",
+    "total_plural": "Total: {{count}} invitations",
+    "loading": "Loading interview invitations...",
+    "empty": "No interview invitations recorded at this time.",
+    "th_student": "Student",
+    "th_position_company": "Position & Company",
+    "th_datetime": "Date & Time",
+    "th_location": "Location / Link",
+    "th_status": "Status",
+    "matricule": "Student ID:"
   },
   "gestionnaire_home": {
     "title": "Welcome to your Manager Workspace",
@@ -311,6 +460,7 @@
       "errors": {
         "fetch": "Error fetching resumes.",
         "approve": "Error approving the resume.",
+        "accept": "Error approving the resume.",
         "reject": "Error rejecting the resume."
       },
       "title": "Resumes pending approval",
@@ -349,7 +499,8 @@
         "target": "Targeted students (Optional)",
         "search": "Search by student ID (ex: 12345)",
         "cancel": "Cancel",
-        "confirm": "Confirm"
+        "confirm": "Confirm approval",
+        "search_placeholder": "Type a name, email, or ID..."
       }
     },
     "modal_refus": {
@@ -366,7 +517,9 @@
       "label_motif": "Reason for rejection",
       "annuler": "Cancel",
       "confirmer": "Confirm rejection"
-    }
+    },
+    "btn_refuse": "Reject",
+    "btn_accept": "Approve"
   },
   "offres_etudiant": {
     "badge": "Student Area",
@@ -397,7 +550,7 @@
     "salary_to_discuss": "To be discussed",
     "btn_see_details": "View details",
     "tab_all_offers": "All Offers",
-    "tab_my_applications": "My Applications ({{count}})",
+    "tab_my_applications": "My Applications",
     "applied_badge": "Application sent",
     "empty_applied": "You have not applied to any internship offers yet.",
     "modal": {

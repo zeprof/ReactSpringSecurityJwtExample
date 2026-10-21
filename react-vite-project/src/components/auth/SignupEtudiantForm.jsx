@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { registerEtudiant } from "../../services/api/EtudiantService";
+import { registerEtudiant } from "../../services/api/EtudiantService.js";
 import SignupTabs from "./SignupTabs";
 import { AuthServiceContext } from "../../services/AuthService.tsx";
 

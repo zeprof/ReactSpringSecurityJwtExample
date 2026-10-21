@@ -1,5 +1,13 @@
 {
   "sitename": "Stagify",
+  "common": {
+    "cancel": "Annuler",
+    "submitting": "Traitement...",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "not_available": "N/D",
+    "at": "à"
+  },
   "pagename": {
     "home": "Accueil",
     "about": "À propos",
@@ -10,6 +18,10 @@
     "signup_professeur": "S'inscrire comme professeur",
     "etudiant": "Mon profil",
     "offres_stages": "Offres de stages",
+    "convocations": "Convocations",
+    "approbation_offres": "Approbation Offres",
+    "approbation_cvs": "Approbation CVs",
+    "gestionnaire_convocations": "Convocations",
     "voir_offres": "Voir offres",
     "logout": "Déconnexion"
   },
@@ -39,11 +51,14 @@
   "role": {
     "gestionnaire": "Gestionnaire",
     "etudiant": "Étudiant",
+    "etudiant_nocv": "Étudiant (CV manquant)",
     "employeur": "Employeur",
-    "professeur": "Professeur"
+    "professeur": "Professeur",
+    "admin": "Administrateur"
   },
   "login_page": {
     "title": "Connexion",
+    "quickLogin": "Connexion rapide",
     "subtitle": "Accédez à votre espace Stagify.",
     "email": "Adresse courriel",
     "password": "Mot de passe",
@@ -172,18 +187,26 @@
     "salaire": "Rémunération / Salaire",
     "exigences": "Exigences particulières (compétences, technologies)",
     "description": "Description de l'offre",
+    "weeks": "{{count}} semaines",
     "placeholders": {
       "titre": "Ex: Développeur Web Junior",
-      "nomEntreprise": "Ex: TechCorp",
+      "nomEntreprise": "Ex: CGI Inc.",
       "discipline": "-- Choisir une discipline --",
       "duree": "-- Choisir une durée --",
-      "salaire": "Ex: 22.50 $/h ou À discuter",
+      "salaire": "22.50",
       "exigences": "Ex: Connaissances en React, Spring Boot, Git...",
       "description": "Décrivez les tâches et responsabilités..."
     },
     "errors": {
       "titre": "Le titre est obligatoire.",
       "nomEntreprise": "Le nom de l'entreprise est obligatoire.",
+      "discipline": "Veuillez choisir une discipline.",
+      "salaire": {
+        "required": "La rémunération est obligatoire.",
+        "format": "Format de rémunération invalide."
+      },
+      "duree": "Veuillez choisir une durée.",
+      "exigences": "Les exigences sont obligatoires.",
       "description": "La description est obligatoire.",
       "descriptionLength": "La description doit contenir au moins 20 caractères."
     },
@@ -231,36 +254,46 @@
     }
   },
   "cv_upload": {
-    "title": "Televerser votre CV",
+    "title": "Téléverser votre CV",
+    "choose_file": "Choisir un fichier PDF",
+    "no_file_chosen": "Aucun fichier choisi",
     "successMessage": "Votre CV a été televersé avec succès!",
     "loading": "Téléversement en cours...",
-    "submit": "Soumettre mon CV",
+    "submit": "Téléverser mon CV",
     "errors": {
       "notPdf": "Veuillez sélectionner un fichier PDF.",
       "default": "Une erreur est survenue lors du téléversement."
     }
   },
-  "etudiant_profile": {
-    "title": "Profil Étudiant",
-    "subtitle": "Gérez vos documents académiques et le statut de votre dossier de stage.",
-    "cv_uploaded": "Votre CV a été téléversé avec succès",
+  "modal_cv": {
     "loading": "Chargement...",
+    "no_cv_title": "Aucun CV téléversé",
+    "no_cv_desc": "Il est préférable de téléverser votre CV.",
+    "upload": "Téléverser mon CV",
+    "update": "Mettre à jour mon CV",
     "pending_badge": "En attente de révision",
-    "pending_desc": "Votre CV a été soumis et est actuellement analysé par un gestionnaire de stage. Vous recevrez l'accès aux offres dès sa validation.",
+    "cv_uploaded": "Votre CV a été téléversé avec succès",
+    "pending_desc": "Votre CV a été soumis et est actuellement analysé par un gestionnaire de stage.",
     "approved_badge": "CV Approuvé",
     "approved_title": "Votre CV a été validé !",
     "approved_desc": "Félicitations, vous pouvez désormais explorer toutes les offres de stage approuvées et y postuler.",
-    "btn_view_offers": "Voir les offres",
-    "update_help": "Besoin de mettre à jour votre CV ?",
-    "btn_hide_upload": "Masquer le formulaire",
-    "btn_show_upload": "Téléverser un nouveau CV",
     "refused_badge": "CV Refusé",
     "refused_title": "Votre CV nécessite des modifications",
     "refused_motif": "Motif : {{motif}}",
     "refused_no_motif": "Aucun motif spécifique fourni.",
     "refused_desc": "Veuillez apporter les corrections nécessaires à votre document puis déposez votre nouvelle version ci-dessous.",
     "upload_corrected_title": "Déposer votre CV corrigé",
-    "registered_desc": "Votre document est bien enregistré dans notre système."
+    "registered_desc": "Votre document est bien enregistré dans notre système.",
+    "interviews_title": "Mes entrevues de stage",
+    "interviews_subtitle": "Entrevues confirmées et convocations en attente",
+    "btn_manage_convocations": "Gérer mes convocations",
+    "confirmed_badge": "Confirmée ✓",
+    "no_interviews": "Aucune entrevue confirmée pour l'instant. Rendez-vous dans l'onglet",
+    "no_interviews_link": "Convocations",
+    "no_interviews_end": "pour répondre à vos invitations.",
+    "default_interview_title": "Entrevue de stage",
+    "location_unspecified": "Lieu non précisé",
+    "error_check": "Une erreur est survenue lors de la vérification du CV."
   },
   "employeur_home": {
     "title": "Mes offres de stage",
@@ -272,15 +305,19 @@
     "status": {
       "EN_ATTENTE": "En attente",
       "ACCEPTE": "Acceptée",
-      "REFUSE": "Refusée"
+      "ACCEPTEE": "Acceptée",
+      "REFUSE": "Refusée",
+      "REFUSEE": "Refusée"
     },
-
     "view_candidates": "Voir les candidatures",
-    "statuts": {
-      "EN_ATTENTE": "En attente",
-      "ACCEPTE": "Acceptée",
-      "REFUSE": "Refusée"
-    }
+    "edit_offer": "Modifier",
+    "edit_error": "Erreur lors de la modification de l'offre.",
+    "delete_offer": "Supprimer",
+    "delete_error": "Erreur lors de la suppression de l'offre.",
+    "modal_edit_title": "Modifier l'offre",
+    "save": "Enregistrer",
+    "saving": "Enregistrement...",
+    "cancel": "Annuler"
   },
   "candidatures_offre": {
     "back": "Retour à mes offres",
@@ -290,18 +327,129 @@
     "no_candidates": "Aucune candidature reçue pour cette offre pour le moment.",
     "view_cv": "Voir le CV",
     "no_cv": "Aucun CV disponible",
-    "statuts": {
+    "status": {
       "EN_ATTENTE": "En attente",
+      "ACCEPTE": "Acceptée",
       "ACCEPTEE": "Acceptée",
+      "REFUSE": "Refusée",
       "REFUSEE": "Refusée",
       "EN_ATTENTE_REPONSE": "En attente de réponse"
     },
-    "no_offers": "Aucune offre de stage n'a encore été créée."
+    "accept": "Accepter la candidature",
+    "refuse": "Refuser",
+    "refuse_message_label": "Message explicatif (facultatif)",
+    "refuse_message_placeholder": "Expliquez brièvement les raisons du refus...",
+    "confirm_refuse": "Confirmer le refus",
+    "cancel": "Annuler",
+    "response_message": "Message de refus"
+  },
+  "candidature_etudiant": {
+    "status": {
+      "EN_ATTENTE": "En attente de réponse de l'employeur",
+      "ACCEPTE": "Convoqué(e) à une entrevue",
+      "ACCEPTEE": "Convoqué(e) à une entrevue",
+      "REFUSE": "Candidature refusée. Cliquez sur « Voir détails » pour plus d'informations.",
+      "REFUSEE": "Candidature refusée. Cliquez sur « Voir détails » pour plus d'informations.",
+      "EN_ATTENTE_REPONSE": "En attente de réponse"
+    },
+    "refuse_reason": "Message de l'employeur",
+    "modal_refused_title": "Candidature refusée",
+    "modal_refused_no_reason": "Votre candidature n'a pas été retenue par l'employeur pour cette offre de stage."
+  },
+  "historique": {
+    "back": "Retour à mes offres",
+    "title": "Historique des décisions",
+    "subtitle": "Toutes vos réponses aux candidatures, de la plus récente à la plus ancienne",
+    "loading": "Chargement de l'historique...",
+    "empty": "Vous n'avez encore pris aucune décision.",
+    "date": "Date de la décision",
+    "message": "Message",
+    "button": "Historique des décisions"
   },
   "sidepanel": {
     "title": "Tableau de bord",
     "cvs": "Approbations des CVs",
-    "offres": "Approbations des offres"
+    "offres": "Approbations des offres",
+    "convocations": "Convocations d'entrevues"
+  },
+  "convocation": {
+    "title": "Mes Convocations d'Entrevue",
+    "subtitle": "Gérez les invitations d'entrevues envoyées par vos employeurs potentiels.",
+    "card_tag": "Convocation d'entrevue",
+    "default_position": "Entrevue de stage",
+    "partner_company": "Entreprise partenaire",
+    "datetime_label": "Date & Heure de l'entrevue",
+    "virtual_interview": "Entrevue virtuelle",
+    "location_label": "Lieu de l'entrevue",
+    "location_unspecified": "Lieu non précisé",
+    "location_to_confirm": "Lieu à confirmer",
+    "employer_instructions": "Instructions de l'employeur :",
+    "counter_proposal_label": "Votre contre-proposition :",
+    "justification_label": "Justification :",
+    "refusal_reason_label": "Motif du refus transmis :",
+    "btn_accept": "Accepter l'entrevue",
+    "btn_refuse": "Refuser",
+    "btn_refresh": "Actualiser",
+    "btn_propose_date": "Proposer une autre date",
+    "processing": "Traitement...",
+    "loading": "Chargement de vos convocations...",
+    "empty_title": "Aucune convocation",
+    "empty_desc_all": "Vous n'avez pas encore reçu de convocation d'entrevue pour vos candidatures.",
+    "empty_desc_filter": "Aucune convocation ne correspond au filtre sélectionné.",
+    "filter_all": "Toutes",
+    "filter_pending": "En attente",
+    "filter_confirmed": "Confirmées",
+    "filter_conflicts": "Conflits d'horaire",
+    "filter_refused": "Refusées",
+    "success_accepted": "Félicitations ! L'entrevue a été confirmée et ajoutée à votre profil.",
+    "success_refused": "La convocation a été refusée. L'employeur en a été notifié.",
+    "success_conflict": "Votre proposition de nouvelle date a été envoyée avec succès à l'employeur !",
+    "status": {
+      "en_attente": "En attente de votre réponse",
+      "acceptee": "Acceptée",
+      "refusee": "Refusée",
+      "expiree": "Expirée",
+      "annulee": "Annulée",
+      "conflit": "Conflit d'horaire",
+      "en_attente_reponse": "En attente de réponse"
+    },
+    "deadline_notice": "Répondre avant le",
+    "confirmed_interview": "Rendez-vous confirmé",
+    "choose_slot": "Choisissez votre créneau préféré parmi les propositions de l'employeur :",
+    "proposed_slot": "Plage horaire proposée par l'employeur :",
+    "expired_notice": "La date limite pour répondre à cette convocation est maintenant échue.",
+    "modal_refus": {
+      "title": "Refuser la convocation",
+      "warning": "Êtes-vous certain de vouloir refuser cette convocation d'entrevue ? L'employeur en sera immédiatement informé.",
+      "motif_label": "Motif du refus (optionnel)",
+      "motif_placeholder": "Ex: J'ai déjà accepté une autre offre, indisponibilité...",
+      "btn_confirm": "Confirmer le refus"
+    },
+    "modal_conflit": {
+      "title": "Signaler un conflit d'horaire",
+      "description": "Proposez une autre plage horaire à l'employeur si vous n'êtes pas disponible à la date prévue.",
+      "initial_date": "Date initiale prévue :",
+      "new_date_label": "Nouvelle date et heure suggérées *",
+      "justification_label": "Justification / Explication pour l'employeur",
+      "justification_placeholder": "Ex: J'ai un examen universitaire ou un cours à cette heure-là...",
+      "btn_submit": "Envoyer la proposition",
+      "error_date_required": "Veuillez sélectionner une nouvelle date et heure.",
+      "error_date_past": "La date proposée doit obligatoirement être dans le futur."
+    }
+  },
+  "gestionnaire_convocations": {
+    "title": "Suivi des Convocations en Entrevue",
+    "subtitle": "Vue d'ensemble de tous les étudiants convoqués en entrevue par les employeurs.",
+    "total": "Total : {{count}} convocation",
+    "total_plural": "Total : {{count}} convocations",
+    "loading": "Chargement des convocations...",
+    "empty": "Aucune convocation d'entrevue enregistrée pour le moment.",
+    "th_student": "Étudiant",
+    "th_position_company": "Poste & Entreprise",
+    "th_datetime": "Date & Heure",
+    "th_location": "Lieu / Lien",
+    "th_status": "Statut",
+    "matricule": "Matricule :"
   },
   "gestionnaire_home": {
     "title": "Bienvenue dans votre Espace Gestionnaire",
@@ -312,6 +460,7 @@
       "errors": {
         "fetch": "Erreur lors de la récupération des CVs.",
         "approve": "Erreur lors de l'approbation du CV.",
+        "accept": "Erreur lors de l'approbation du CV.",
         "reject": "Erreur lors du rejet du CV."
       },
       "title": "CVs en attente d'approbation",
@@ -321,6 +470,10 @@
       "matricule": "Matricule",
       "pdf": "Consulter le document PDF",
       "pdf_title": "Visualisation du CV",
+      "reason": "Motif du refus",
+      "explain": "Veuillez expliquer pourquoi ce CV est refusé...",
+      "cancel": "Annuler",
+      "confirm": "Confirmer le refus",
       "nocvs": "Aucun CV en attente de validation.",
       "close": "Fermer",
       "cvPdf": "CV PDF"
@@ -346,7 +499,8 @@
         "target": "Étudiants ciblés (Optionnel)",
         "search": "Chercher par matricule (ex: 12345)",
         "cancel": "Annuler",
-        "confirm": "Confirmer"
+        "confirm": "Confirmer l'approbation",
+        "search_placeholder": "Taper un nom, courriel ou matricule..."
       }
     },
     "modal_refus": {
@@ -363,7 +517,9 @@
       "label_motif": "Motif du refus",
       "annuler": "Annuler",
       "confirmer": "Confirmer le refus"
-    }
+    },
+    "btn_refuse": "Refuser",
+    "btn_accept": "Approuver"
   },
   "offres_etudiant": {
     "badge": "Espace Étudiant",
@@ -394,7 +550,7 @@
     "salary_to_discuss": "À discuter",
     "btn_see_details": "Voir détails",
     "tab_all_offers": "Toutes les offres",
-    "tab_my_applications": "Mes candidatures ({{count}})",
+    "tab_my_applications": "Mes candidatures",
     "applied_badge": "Candidature envoyée",
     "empty_applied": "Vous n'avez pas encore postulé à une offre de stage.",
     "modal": {

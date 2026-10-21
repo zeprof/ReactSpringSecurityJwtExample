@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EtudiantService {
@@ -86,10 +87,6 @@ public class EtudiantService {
             throw new Exception("Cette offre ne vous est pas accessible");
         }
 
-        if (etudiant.getCv() == null || etudiant.getCv().getStatusAcceptation() != StatusAcceptation.ACCEPTE) {
-            throw new Exception("Votre CV doit être accepté avant de pouvoir postuler");
-        }
-
         if (candidatureRepository.existsByEtudiantAndOffreStage(etudiant, offre)) {
             throw new Exception("Vous avez déjà postulé à cette offre");
         }
@@ -110,13 +107,6 @@ public class EtudiantService {
         List<OffreStage> offre = offreStageRepository.findByEtudiant(etudiant);
 
         return OffreStageDto.createFilteredByEtudiant(offre, etudiant);
-    }
-
-    public EtudiantDto getEtudiantByMatricule(int matricule) throws Exception {
-        Etudiant etudiant = etudiantRepository.findByMatricule(matricule)
-                .orElseThrow(() -> new Exception("Aucun étudiant trouvé avec ce matricule"));
-
-        return EtudiantDto.create(etudiant);
     }
 
     public StatutCvDto getStatutCv(String email) {
@@ -142,13 +132,7 @@ public class EtudiantService {
         Etudiant etudiant = etudiantRepository.findById(user.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Étudiant introuvable"));
 
-        if (etudiant.getCv() == null || etudiant.getCv().getStatusAcceptation() != StatusAcceptation.ACCEPTE) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                    "Accès refusé : votre CV doit être approuvé par un gestionnaire.");
-        }
-
         List<OffreStage> offresAcceptees = offreStageRepository.findByApprobationStatus(StatusAcceptation.ACCEPTE);
-
 
         return offresAcceptees.stream()
                 .filter(offre -> offre.getEtudiantsAutorises() == null
@@ -159,15 +143,8 @@ public class EtudiantService {
     }
 
     public OffreStageDto getOffreDetail(Long id, String email) {
-        UserApp user = userAppRepository.findUserAppByEmail(email)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Utilisateur introuvable"));
-
-        Etudiant etudiant = etudiantRepository.findById(user.getId())
+        Etudiant etudiant = (Etudiant) userAppRepository.findUserAppByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Étudiant introuvable"));
-
-        if (etudiant.getCv() == null || etudiant.getCv().getStatusAcceptation() != StatusAcceptation.ACCEPTE) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Accès refusé : votre CV doit être approuvé.");
-        }
 
         OffreStage offre = offreStageRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Offre de stage introuvable"));
@@ -185,5 +162,15 @@ public class EtudiantService {
         }
 
         return OffreStageDto.createFilteredByEtudiant(offre, etudiant);
+    }
+
+
+    public List<EtudiantDto> rechercherEtudiants(String motCle) {
+        List<Etudiant> etudiants = etudiantRepository.rechercherParMotCle(motCle);
+
+        return etudiants.stream()
+                .limit(10)
+                .map(EtudiantDto::create)
+                .collect(Collectors.toList());
     }
 }
