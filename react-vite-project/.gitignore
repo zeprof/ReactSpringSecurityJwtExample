@@ -15,4 +15,7 @@ yarn-error.log*
 
 # IDE/Editor directories
 .idea/
-.vscode/coverage/
+.vscode/
+
+# Test coverage
+coverage/
