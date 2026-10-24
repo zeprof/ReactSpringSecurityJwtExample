@@ -15,4 +15,4 @@ yarn-error.log*
 
 # IDE/Editor directories
 .idea/
-.vscode/
+.vscode/coverage/
