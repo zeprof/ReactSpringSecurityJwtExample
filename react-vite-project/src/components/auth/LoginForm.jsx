@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { getNavigationPath } from "../../utils/roleNavigation.js";
+import { getFieldErrors, isFormValid } from "../../utils/validation.js";
 
 const LoginForm = ({ setError }) => {
   const navigate = useNavigate();
@@ -16,35 +17,10 @@ const LoginForm = ({ setError }) => {
     password: "",
   });
 
-  const validateUser = () => {
-    let isValid = true;
-    const updatedWarnings = { ...warnings };
-
-    if (!validateEmail()) {
-      updatedWarnings.email = "courriel invalide";
-      isValid = false;
-    } else {
-      updatedWarnings.email = "";
-    }
-
-    if (!validatePassword()) {
-      updatedWarnings.password = "mot de passe invalide";
-      isValid = false;
-    } else {
-      updatedWarnings.password = "";
-    }
-
-    setWarnings(updatedWarnings);
-    return isValid;
-  };
-
-  const validateEmail = () => {
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    return emailRegex.test(formData.email);
-  };
-
-  const validatePassword = () => {
-    return formData.password.trim().length > 0;
+  const validateForm = () => {
+    const errors = getFieldErrors(formData);
+    setWarnings(errors);
+    return isFormValid(errors);
   };
 
   const handleChanges = (e) => {
@@ -56,7 +32,7 @@ const LoginForm = ({ setError }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateUser()) {
+    if (!validateForm()) {
       return;
     }
 
