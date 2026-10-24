@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
+import { getNavigationPath } from "../../utils/roleNavigation.js";
 
 const LoginForm = ({ setError }) => {
   const navigate = useNavigate();
@@ -65,16 +66,7 @@ const LoginForm = ({ setError }) => {
         password: formData.password,
       });
 
-      const role = userData.role;
-      if (role === "ROLE_EMPRUNTEUR") {
-        navigate("/emprunteur");
-      } else if (role === "ROLE_PREPOSE") {
-        navigate("/prepose");
-      } else if (role === "ROLE_GESTIONNAIRE") {
-        navigate("/gestionnaire");
-      } else {
-        navigate("/");
-      }
+      navigate(getNavigationPath(userData.role));
     } catch (error) {
       setError?.(error);
       navigate("/error");
@@ -82,20 +74,7 @@ const LoginForm = ({ setError }) => {
   };
 
   if (user?.isLoggedIn) {
-    const role = user.role;
-    if (role === "ROLE_EMPRUNTEUR") {
-      navigate("/emprunteur");
-      return null;
-    }
-    if (role === "ROLE_PREPOSE") {
-      navigate("/prepose");
-      return null;
-    }
-    if (role === "ROLE_GESTIONNAIRE") {
-      navigate("/gestionnaire");
-      return null;
-    }
-    navigate("/");
+    navigate(getNavigationPath(user.role));
     return null;
   }
 
